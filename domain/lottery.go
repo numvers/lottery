@@ -1,9 +1,10 @@
 package domain
 
 type Lottery struct {
-	Round   uint
-	Numbers LotteryNumbers
-	Wins    []Win
+	Round      uint
+	PickedDate string
+	Numbers    LotteryNumbers
+	Wins       []Win
 }
 
 type LotteryNumbers struct {
