@@ -41,7 +41,12 @@ func (r *LotteryRepoitoy) FindAll() ([]domain.Lottery, error) {
 }
 
 func (repo *LotteryRepoitoy) FindByRound(round uint) (domain.Lottery, error) {
-	row := repo.db.QueryRow("SELECT * FROM lotteries WHERE round = ?", round)
+	var row *sql.Row
+	if round == 0 {
+		row = repo.db.QueryRow("SELECT * FROM lotteries LIMIT 1")
+	} else {
+		row = repo.db.QueryRow("SELECT * FROM lotteries WHERE round = ?", round)
+	}
 	var r lotteryRow
 	err := row.Scan(&r.round, &r.picked_date,
 		&r.num_first_winners, &r.first_prize,
