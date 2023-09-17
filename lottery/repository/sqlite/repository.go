@@ -75,23 +75,23 @@ func (r *row) toLottery() domain.Lottery {
 			Numbers: []uint{uint(r.first_number), uint(r.second_number), uint(r.third_number), uint(r.forth_number), uint(r.fifth_number), uint(r.bonus_number)},
 		},
 		Wins: []domain.Win{
-			domain.Win{
+			{
 				NumWinners: uint(r.num_first_winners),
 				Prize:      uint(r.first_prize),
 			},
-			domain.Win{
+			{
 				NumWinners: uint(r.num_second_winners),
 				Prize:      uint(r.second_prize),
 			},
-			domain.Win{
+			{
 				NumWinners: uint(r.num_third_winners),
 				Prize:      uint(r.third_prize),
 			},
-			domain.Win{
+			{
 				NumWinners: uint(r.num_forth_winners),
 				Prize:      uint(r.forth_prize),
 			},
-			domain.Win{
+			{
 				NumWinners: uint(r.num_fifth_winners),
 				Prize:      uint(r.fifth_prize),
 			},
