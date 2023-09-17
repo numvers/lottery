@@ -2,6 +2,7 @@ on: push
 
 permissions:
   pull-requests: read
+  packages: write
 
 jobs:
   build:
