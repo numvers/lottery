@@ -1,0 +1,8 @@
+FROM ubuntu:22.04
+LABEL org.opencontainers.image.source=https://github.com/numvers/lottery
+WORKDIR /
+COPY ./cmd/http/app /app
+COPY  ./lottery.db /lottery.db
+EXPOSE 8080
+ENTRYPOINT ["/app"]
+CMD ["--db_path=/lottery.db"]

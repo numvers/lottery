@@ -6,3 +6,6 @@ build:
 test: 
 	@ go test -coverprofile coverage.out -v ./...
 	@ go test -json ./... > report.json
+
+docker: 
+	@ docker build -t ghcr.io/numvers/lottery:local .
