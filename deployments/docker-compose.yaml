@@ -1,0 +1,15 @@
+services:
+  lottery:
+    image: ghcr.io/numvers/lottery:${TAG:-main}
+    platform: linux/amd64
+    container_name: lottery
+    ports:
+      - 8080:8080
+
+  watchtower:
+    image: containrrr/watchtower
+    depends_on:
+      - lottery
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 60 lottery
