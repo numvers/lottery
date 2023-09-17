@@ -1,19 +1,15 @@
 package domain
 
 type Lottery struct {
-	Round      uint
-	PickedDate string
-	Numbers    LotteryNumbers
-	Wins       []Win
-}
-
-type LotteryNumbers struct {
-	Numbers []uint
+	Round      uint   `json:"round"`
+	PickedDate string `json:"date"`
+	Numbers    []uint `json:"numbers"`
+	Wins       []Win  `json:"wins"`
 }
 
 type Win struct {
-	NumWinners uint
-	Prize      uint
+	NumWinners uint `json:"num_winners"`
+	Prize      uint `json:"prize"`
 }
 
 type LotteryRepoitoy interface {

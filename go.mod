@@ -4,6 +4,7 @@ go 1.21
 
 require (
 	github.com/assertg/assert v0.0.0-20230917121620-0df803d7aa7d
+	github.com/go-chi/chi/v5 v5.0.10
 	modernc.org/sqlite v1.25.0
 )
 

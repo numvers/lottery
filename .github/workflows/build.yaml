@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: 1.21
-      - run: go build -v ./...
+      - run: go build -C cmd/http -o app
       - run: go test -coverprofile coverage.out -v ./...
       - run: go test -json ./... > report.json
       - uses: sarisia/actions-status-discord@v1
