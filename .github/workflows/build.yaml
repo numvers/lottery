@@ -5,7 +5,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -34,6 +34,7 @@ jobs:
             type=sha
       - uses: docker/build-push-action@v5
         with:
+          file: Dockerfile.ci
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           platforms: linux/amd64,linux/arm64

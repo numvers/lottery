@@ -1,0 +1,7 @@
+FROM ubuntu:22.04
+WORKDIR /
+COPY ./cmd/http/app /app
+COPY  ./lottery.db /lottery.db
+EXPOSE 8080
+ENTRYPOINT ["/app"]
+CMD ["--db_path=/lottery.db"]
