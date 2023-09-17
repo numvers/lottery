@@ -37,6 +37,7 @@ func main() {
 
 	router := chi.NewRouter()
 	router.Get("/lotteries", getLotteries(repository))
+	router.Get("/lotteries/{round}", getLotteriesByRound(repository))
 	port := ":8080"
 	server := &http.Server{
 		Addr:    port,
