@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/numvers/lottery/lottery/repository/sqlite"
 )
@@ -36,6 +37,10 @@ func main() {
 	repository := sqlite.NewLotteryRepository(db)
 
 	router := chi.NewRouter()
+	router.Use(middleware.RequestID)
+	router.Use(middleware.RealIP)
+	router.Use(middleware.Logger)
+	router.Use(middleware.Recoverer)
 	router.Get("/lotteries", getLotteries(repository))
 	router.Get("/lotteries/{round}", getLotteriesByRound(repository))
 	port := ":8080"
