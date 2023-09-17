@@ -2,7 +2,6 @@ package sqlite
 
 import (
 	"database/sql"
-	"errors"
 
 	"github.com/numvers/lottery/domain"
 	_ "modernc.org/sqlite"
@@ -25,7 +24,7 @@ func (r *LotteryRepoitoy) FindAll() ([]domain.Lottery, error) {
 
 	results := []domain.Lottery{}
 	for rows.Next() {
-		var r row
+		var r lotteryRow
 		err := rows.Scan(&r.round, &r.picked_date,
 			&r.num_first_winners, &r.first_prize,
 			&r.num_second_winners, &r.second_prize,
@@ -41,11 +40,23 @@ func (r *LotteryRepoitoy) FindAll() ([]domain.Lottery, error) {
 	return results, nil
 }
 
-func (r *LotteryRepoitoy) FindByRound(round uint) (domain.Lottery, error) {
-	return domain.Lottery{}, errors.New("not implemented") // TODO: Implement
+func (repo *LotteryRepoitoy) FindByRound(round uint) (domain.Lottery, error) {
+	row := repo.db.QueryRow("SELECT * FROM lotteries WHERE round = ?", round)
+	var r lotteryRow
+	err := row.Scan(&r.round, &r.picked_date,
+		&r.num_first_winners, &r.first_prize,
+		&r.num_second_winners, &r.second_prize,
+		&r.num_third_winners, &r.third_prize,
+		&r.num_forth_winners, &r.forth_prize,
+		&r.num_fifth_winners, &r.fifth_prize,
+		&r.first_number, &r.second_number, &r.third_number, &r.forth_number, &r.fifth_number, &r.sixth_number, &r.bonus_number)
+	if err != nil {
+		return domain.Lottery{}, err
+	}
+	return r.toLottery(), nil
 }
 
-type row struct {
+type lotteryRow struct {
 	round              int
 	picked_date        string
 	num_first_winners  int
@@ -67,7 +78,7 @@ type row struct {
 	bonus_number       int8
 }
 
-func (r *row) toLottery() domain.Lottery {
+func (r *lotteryRow) toLottery() domain.Lottery {
 	return domain.Lottery{
 		Round:      uint(r.round),
 		PickedDate: r.picked_date,
