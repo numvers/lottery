@@ -1,3 +1,6 @@
+lint:
+	@ golangci-lint run
+
 build:
 	@ echo "building application in path /cmd/http/app"
 	@ go build -C cmd/http -o app
