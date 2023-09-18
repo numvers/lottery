@@ -9,3 +9,6 @@ test:
 
 docker: 
 	@ docker build -t ghcr.io/numvers/lottery:local .
+
+run:
+	@ ./cmd/http/app --db_path=./lottery.db
