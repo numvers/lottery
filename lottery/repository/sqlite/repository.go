@@ -11,7 +11,7 @@ type LotteryRepoitoy struct {
 	db *sql.DB
 }
 
-func NewLotteryRepository(db *sql.DB) *LotteryRepoitoy {
+func NewLotteryRepository(db *sql.DB) domain.LotteryRepoitoy {
 	return &LotteryRepoitoy{db}
 }
 
@@ -59,6 +59,24 @@ func (repo *LotteryRepoitoy) FindByRound(round uint) (domain.Lottery, error) {
 		return domain.Lottery{}, err
 	}
 	return r.toLottery(), nil
+}
+
+func (repo *LotteryRepoitoy) FindAllByNumbers(numbers ...uint) ([]domain.Lottery, error) {
+	if len(numbers) == 0 {
+		return repo.FindAll()
+	}
+	lotteries, err := repo.FindAll()
+	if err != nil {
+		return nil, err
+	}
+
+	results := make([]domain.Lottery, 0)
+	for _, lottery := range lotteries {
+		if lottery.CotainsAll(numbers...) {
+			results = append(results, lottery)
+		}
+	}
+	return results, nil
 }
 
 type lotteryRow struct {

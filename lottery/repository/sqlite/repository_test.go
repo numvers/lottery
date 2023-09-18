@@ -47,4 +47,20 @@ func TestLotteryRepository(t *testing.T) {
 		}
 	})
 
+	t.Run("FindAllByNumbers", func(t *testing.T) {
+		for _, number := range []uint{10, 20, 30, 40} {
+			lotteries, err := repository.FindAllByNumbers(number)
+			assert.NoError(t, err)
+			assert.Positive(t, len(lotteries))
+		}
+
+		lotteries, err := repository.FindAllByNumbers(10, 20, 30)
+		assert.NoError(t, err)
+		assert.Positive(t, len(lotteries))
+
+		lotteries, err = repository.FindAllByNumbers(0, 10)
+		assert.NoError(t, err)
+		assert.Equals(t, len(lotteries), 0)
+	})
+
 }
