@@ -12,7 +12,17 @@ import (
 func getLotteries(repo domain.LotteryRepoitoy) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		lotteries, err := repo.FindAll()
+		strIncludes := r.URL.Query()["include"]
+		includes := make([]uint, len(strIncludes))
+		for i, s := range strIncludes {
+			n, err := strconv.Atoi(s)
+			if err != nil {
+				writeHttpErrorResponse(w, err)
+				return
+			}
+			includes[i] = uint(n)
+		}
+		lotteries, err := repo.FindAllByNumbers(includes...)
 		if err != nil {
 			writeHttpErrorResponse(w, err)
 			return
