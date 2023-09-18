@@ -7,15 +7,15 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-type LotteryRepoitoy struct {
+type LotteryRepository struct {
 	db *sql.DB
 }
 
 func NewLotteryRepository(db *sql.DB) domain.LotteryRepoitoy {
-	return &LotteryRepoitoy{db}
+	return &LotteryRepository{db}
 }
 
-func (r *LotteryRepoitoy) FindAll() ([]domain.Lottery, error) {
+func (r *LotteryRepository) FindAll() ([]domain.Lottery, error) {
 	rows, err := r.db.Query("SELECT * FROM lotteries")
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func (r *LotteryRepoitoy) FindAll() ([]domain.Lottery, error) {
 	return results, nil
 }
 
-func (repo *LotteryRepoitoy) FindByRound(round uint) (domain.Lottery, error) {
+func (repo *LotteryRepository) FindByRound(round uint) (domain.Lottery, error) {
 	var row *sql.Row
 	if round == 0 {
 		row = repo.db.QueryRow("SELECT * FROM lotteries LIMIT 1")
@@ -61,7 +61,7 @@ func (repo *LotteryRepoitoy) FindByRound(round uint) (domain.Lottery, error) {
 	return r.toLottery(), nil
 }
 
-func (repo *LotteryRepoitoy) FindAllByNumbers(numbers ...uint) ([]domain.Lottery, error) {
+func (repo *LotteryRepository) FindAllByNumbers(numbers ...uint) ([]domain.Lottery, error) {
 	if len(numbers) == 0 {
 		return repo.FindAll()
 	}
