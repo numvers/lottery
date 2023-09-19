@@ -12,6 +12,7 @@ import (
 
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
+	"github.com/numvers/lottery/domain"
 	"github.com/numvers/lottery/lottery/repository/sqlite"
 )
 
@@ -35,6 +36,7 @@ func main() {
 	defer db.Close()
 
 	repository := sqlite.NewLotteryRepository(db)
+	statService := domain.NewLotteryStatsService(repository)
 
 	router := chi.NewRouter()
 	router.Use(middleware.RequestID)
@@ -43,6 +45,7 @@ func main() {
 	router.Use(middleware.Recoverer)
 	router.Get("/lotteries", getLotteries(repository))
 	router.Get("/lotteries/{round}", getLotteriesByRound(repository))
+	router.Get("/stats/win_by_number", getStatsWinByNumber(statService))
 	port := ":8080"
 	server := &http.Server{
 		Addr:    port,
