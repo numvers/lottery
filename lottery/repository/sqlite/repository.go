@@ -80,8 +80,9 @@ func (repo *LotteryRepository) FindAllByNumbers(numbers ...uint) ([]domain.Lotte
 }
 
 type lotteryRow struct {
-	round              int
-	picked_date        string
+	round       int
+	picked_date string
+
 	num_first_winners  int
 	first_prize        int
 	num_second_winners int
@@ -92,20 +93,28 @@ type lotteryRow struct {
 	forth_prize        int
 	num_fifth_winners  int
 	fifth_prize        int
-	first_number       int8
-	second_number      int8
-	third_number       int8
-	forth_number       int8
-	fifth_number       int8
-	sixth_number       int8
-	bonus_number       int8
+
+	first_number  int8
+	second_number int8
+	third_number  int8
+	forth_number  int8
+	fifth_number  int8
+	sixth_number  int8
+	bonus_number  int8
 }
 
 func (r *lotteryRow) toLottery() domain.Lottery {
 	return domain.Lottery{
 		Round:      uint(r.round),
 		PickedDate: r.picked_date,
-		Numbers:    []uint{uint(r.first_number), uint(r.second_number), uint(r.third_number), uint(r.forth_number), uint(r.fifth_number), uint(r.bonus_number)},
+		Numbers: []uint{
+			uint(r.first_number),
+			uint(r.second_number),
+			uint(r.third_number),
+			uint(r.forth_number),
+			uint(r.fifth_number),
+			uint(r.sixth_number),
+			uint(r.bonus_number)},
 		Wins: []domain.Win{
 			{
 				NumWinners: uint(r.num_first_winners),
