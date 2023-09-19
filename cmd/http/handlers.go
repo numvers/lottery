@@ -49,6 +49,18 @@ func getLotteriesByRound(repo domain.LotteryRepoitoy) http.HandlerFunc {
 	}
 }
 
+func getStatsWinByNumber(service domain.LotteryStatsService) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		stats, err := service.StatsWinByNumber()
+		if err != nil {
+			writeHttpErrorResponse(w, err)
+			return
+		}
+		writeHttpJsonResponse(w, 200, stats)
+	}
+}
+
 func writeHttpErrorResponse(w http.ResponseWriter, err error) {
 	writeHttpJsonResponse(w, 500, domain.ErrorResponse{Code: 500, Message: err.Error()})
 }
@@ -60,5 +72,5 @@ func writeHttpJsonResponse[R jsonResponse](w http.ResponseWriter, code int, cote
 }
 
 type jsonResponse interface {
-	[]domain.Lottery | domain.Lottery | domain.ErrorResponse
+	[]domain.Lottery | domain.Lottery | []domain.WinByNumber | domain.ErrorResponse
 }
