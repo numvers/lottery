@@ -105,16 +105,18 @@ type lotteryRow struct {
 
 func (r *lotteryRow) toLottery() domain.WinnerLottery {
 	return domain.WinnerLottery{
-		Round:      uint(r.round),
-		PickedDate: r.picked_date,
-		Numbers: []uint{
-			uint(r.first_number),
-			uint(r.second_number),
-			uint(r.third_number),
-			uint(r.forth_number),
-			uint(r.fifth_number),
-			uint(r.sixth_number),
-			uint(r.bonus_number)},
+		Round: uint(r.round),
+		Lottery: domain.Lottery{
+			PickedDate: r.picked_date,
+			Numbers: []uint{
+				uint(r.first_number),
+				uint(r.second_number),
+				uint(r.third_number),
+				uint(r.forth_number),
+				uint(r.fifth_number),
+				uint(r.sixth_number),
+				uint(r.bonus_number)},
+		},
 		Wins: []domain.Win{
 			{
 				NumWinners: uint(r.num_first_winners),

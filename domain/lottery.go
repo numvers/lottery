@@ -3,10 +3,14 @@ package domain
 import "slices"
 
 type WinnerLottery struct {
-	Round      uint   `json:"round"`
+	Lottery
+	Round uint  `json:"round"`
+	Wins  []Win `json:"wins"`
+}
+
+type Lottery struct {
 	PickedDate string `json:"date"`
 	Numbers    []uint `json:"numbers"`
-	Wins       []Win  `json:"wins"`
 }
 
 type Win struct {
