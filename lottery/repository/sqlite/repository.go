@@ -11,18 +11,18 @@ type LotteryRepository struct {
 	db *sql.DB
 }
 
-func NewLotteryRepository(db *sql.DB) domain.LotteryRepoitoy {
+func NewWinnerLotteryRepository(db *sql.DB) domain.WinnerLotteryRepoitoy {
 	return &LotteryRepository{db}
 }
 
-func (r *LotteryRepository) FindAll() ([]domain.Lottery, error) {
+func (r *LotteryRepository) FindAll() ([]domain.WinnerLottery, error) {
 	rows, err := r.db.Query("SELECT * FROM lotteries")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	results := []domain.Lottery{}
+	results := []domain.WinnerLottery{}
 	for rows.Next() {
 		var r lotteryRow
 		err := rows.Scan(&r.round, &r.picked_date,
@@ -40,7 +40,7 @@ func (r *LotteryRepository) FindAll() ([]domain.Lottery, error) {
 	return results, nil
 }
 
-func (repo *LotteryRepository) FindByRound(round uint) (domain.Lottery, error) {
+func (repo *LotteryRepository) FindByRound(round uint) (domain.WinnerLottery, error) {
 	var row *sql.Row
 	if round == 0 {
 		row = repo.db.QueryRow("SELECT * FROM lotteries LIMIT 1")
@@ -56,12 +56,12 @@ func (repo *LotteryRepository) FindByRound(round uint) (domain.Lottery, error) {
 		&r.num_fifth_winners, &r.fifth_prize,
 		&r.first_number, &r.second_number, &r.third_number, &r.forth_number, &r.fifth_number, &r.sixth_number, &r.bonus_number)
 	if err != nil {
-		return domain.Lottery{}, err
+		return domain.WinnerLottery{}, err
 	}
 	return r.toLottery(), nil
 }
 
-func (repo *LotteryRepository) FindAllByNumbers(numbers ...uint) ([]domain.Lottery, error) {
+func (repo *LotteryRepository) FindAllByNumbers(numbers ...uint) ([]domain.WinnerLottery, error) {
 	if len(numbers) == 0 {
 		return repo.FindAll()
 	}
@@ -70,7 +70,7 @@ func (repo *LotteryRepository) FindAllByNumbers(numbers ...uint) ([]domain.Lotte
 		return nil, err
 	}
 
-	results := make([]domain.Lottery, 0)
+	results := make([]domain.WinnerLottery, 0)
 	for _, lottery := range lotteries {
 		if lottery.CotainsAll(numbers...) {
 			results = append(results, lottery)
@@ -103,8 +103,8 @@ type lotteryRow struct {
 	bonus_number  int8
 }
 
-func (r *lotteryRow) toLottery() domain.Lottery {
-	return domain.Lottery{
+func (r *lotteryRow) toLottery() domain.WinnerLottery {
+	return domain.WinnerLottery{
 		Round:      uint(r.round),
 		PickedDate: r.picked_date,
 		Numbers: []uint{

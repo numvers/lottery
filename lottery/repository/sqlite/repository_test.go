@@ -7,7 +7,7 @@ import (
 	"github.com/assertg/assert"
 )
 
-func TestLotteryRepository(t *testing.T) {
+func TestWinnerLotteryRepository(t *testing.T) {
 
 	db, err := sql.Open("sqlite", "./testdata/lottery.db")
 	assert.NoError(t, err)
@@ -18,7 +18,7 @@ func TestLotteryRepository(t *testing.T) {
 		db.Close()
 	})
 
-	repository := NewLotteryRepository(db)
+	repository := NewWinnerLotteryRepository(db)
 
 	t.Run("FindAll", func(t *testing.T) {
 		lotteries, err := repository.FindAll()

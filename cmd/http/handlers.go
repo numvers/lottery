@@ -9,7 +9,7 @@ import (
 	"github.com/numvers/lottery/domain"
 )
 
-func getLotteries(repo domain.LotteryRepoitoy) http.HandlerFunc {
+func getLotteries(repo domain.WinnerLotteryRepoitoy) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		strIncludes := r.URL.Query()["include"]
@@ -22,16 +22,16 @@ func getLotteries(repo domain.LotteryRepoitoy) http.HandlerFunc {
 			}
 			includes[i] = uint(n)
 		}
-		lotteries, err := repo.FindAllByNumbers(includes...)
+		winners, err := repo.FindAllByNumbers(includes...)
 		if err != nil {
 			writeHttpErrorResponse(w, err)
 			return
 		}
-		writeHttpJsonResponse(w, 200, lotteries)
+		writeHttpJsonResponse(w, 200, winners)
 	}
 }
 
-func getLotteriesByRound(repo domain.LotteryRepoitoy) http.HandlerFunc {
+func getLotteriesByRound(repo domain.WinnerLotteryRepoitoy) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		strRound := chi.URLParam(r, "round")
@@ -40,12 +40,12 @@ func getLotteriesByRound(repo domain.LotteryRepoitoy) http.HandlerFunc {
 			writeHttpErrorResponse(w, err)
 			return
 		}
-		lottery, err := repo.FindByRound(uint(round))
+		winner, err := repo.FindByRound(uint(round))
 		if err != nil {
 			writeHttpErrorResponse(w, err)
 			return
 		}
-		writeHttpJsonResponse(w, 200, lottery)
+		writeHttpJsonResponse(w, 200, winner)
 	}
 }
 
@@ -72,5 +72,5 @@ func writeHttpJsonResponse[R jsonResponse](w http.ResponseWriter, code int, cote
 }
 
 type jsonResponse interface {
-	[]domain.Lottery | domain.Lottery | []domain.WinByNumber | domain.ErrorResponse
+	[]domain.WinnerLottery | domain.WinnerLottery | []domain.WinByNumber | domain.ErrorResponse
 }

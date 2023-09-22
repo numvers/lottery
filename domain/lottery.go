@@ -2,14 +2,19 @@ package domain
 
 import "slices"
 
-type Lottery struct {
+type WinnerLottery struct {
 	Round      uint   `json:"round"`
 	PickedDate string `json:"date"`
 	Numbers    []uint `json:"numbers"`
 	Wins       []Win  `json:"wins"`
 }
 
-func (l Lottery) CotainsAll(numbers ...uint) bool {
+type Win struct {
+	NumWinners uint `json:"num_winners"`
+	Prize      uint `json:"prize"`
+}
+
+func (l WinnerLottery) CotainsAll(numbers ...uint) bool {
 	for _, num := range numbers {
 		_, found := slices.BinarySearch(l.Numbers, num)
 		if !found {
@@ -19,13 +24,8 @@ func (l Lottery) CotainsAll(numbers ...uint) bool {
 	return true
 }
 
-type Win struct {
-	NumWinners uint `json:"num_winners"`
-	Prize      uint `json:"prize"`
-}
-
-type LotteryRepoitoy interface {
-	FindAll() ([]Lottery, error)
-	FindByRound(round uint) (Lottery, error)
-	FindAllByNumbers(numbers ...uint) ([]Lottery, error)
+type WinnerLotteryRepoitoy interface {
+	FindAll() ([]WinnerLottery, error)
+	FindByRound(round uint) (WinnerLottery, error)
+	FindAllByNumbers(numbers ...uint) ([]WinnerLottery, error)
 }

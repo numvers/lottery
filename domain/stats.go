@@ -1,7 +1,7 @@
 package domain
 
 type LotteryStatsService struct {
-	repo LotteryRepoitoy
+	repo WinnerLotteryRepoitoy
 }
 
 type WinByNumber struct {
@@ -9,7 +9,7 @@ type WinByNumber struct {
 	NumWins uint `json:"num_wins"`
 }
 
-func NewLotteryStatsService(repo LotteryRepoitoy) LotteryStatsService {
+func NewLotteryStatsService(repo WinnerLotteryRepoitoy) LotteryStatsService {
 	return LotteryStatsService{repo: repo}
 }
 

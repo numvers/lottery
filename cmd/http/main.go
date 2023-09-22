@@ -35,7 +35,7 @@ func main() {
 	}
 	defer db.Close()
 
-	repository := sqlite.NewLotteryRepository(db)
+	repository := sqlite.NewWinnerLotteryRepository(db)
 	statService := domain.NewLotteryStatsService(repository)
 
 	router := chi.NewRouter()
