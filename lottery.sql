@@ -1106,3 +1106,18 @@ INSERT INTO lotteries(round,picked_date,num_first_winners,first_prize,num_second
 ,(3,'2002-12-21',1,2000000000,0,0,139,1174100,5940,54900,73256,10000,11,16,19,21,27,31,30)
 ,(2,'2002-12-14',1,2002006800,2,94866800,103,1842000,3763,100800,55480,10000,9,13,21,25,32,42,2)
 ,(1,'2002-12-07',0,0,1,143934100,28,5140500,2537,113400,40155,10000,10,23,29,33,37,40,16);
+
+CREATE TABLE numbers(
+    id INT PRIMARY KEY,
+    picked_date TEXT NOT NULL,
+    first_number TINYINT NOT NULL,
+    second_number TINYINT NOT NULL,
+    third_number TINYINT NOT NULL,
+    forth_number TINYINT NOT NULL,
+    fifth_number TINYINT NOT NULL,
+    sixth_number TINYINT NOT NULL,
+    bonus_number TINYINT NOT NULL
+);
+
+INSERT INTO numbers(picked_date,first_number,second_number,third_number,forth_number,fifth_number,sixth_number,bonus_number) VALUES
+('2002-12-07',10,23,29,33,37,40,16);

@@ -1,6 +1,9 @@
 package domain
 
-import "slices"
+import (
+	"math/rand"
+	"slices"
+)
 
 type WinnerLottery struct {
 	Lottery
@@ -32,4 +35,21 @@ type WinnerLotteryRepoitoy interface {
 	FindAll() ([]WinnerLottery, error)
 	FindByRound(round uint) (WinnerLottery, error)
 	FindAllByNumbers(numbers ...uint) ([]WinnerLottery, error)
+}
+
+type LotteryRepository interface {
+	FindAll() ([]Lottery, error)
+	Save(lottery Lottery) error
+}
+
+type LotteryGeneratorService struct {
+	repo LotteryRepository
+}
+
+func NewLotteryGeneratorService(repo LotteryRepository) LotteryGeneratorService {
+	return LotteryGeneratorService{repo: repo}
+}
+
+func (s LotteryGeneratorService) NewNumber() {
+	rand.Int31n(45)
 }
