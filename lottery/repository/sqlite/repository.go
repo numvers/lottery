@@ -16,7 +16,7 @@ func NewLotteryRepository(db *sql.DB) domain.LotteryRepoitoy {
 }
 
 func (r *LotteryRepository) FindAll() ([]domain.Lottery, error) {
-	rows, err := r.db.Query("SELECT * FROM lotteries")
+	rows, err := r.db.Query("SELECT * FROM lotteries ORDER BY round desc")
 	if err != nil {
 		return nil, err
 	}
