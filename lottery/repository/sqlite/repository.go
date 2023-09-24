@@ -43,7 +43,7 @@ func (r *LotteryRepository) FindAll() ([]domain.Lottery, error) {
 func (repo *LotteryRepository) FindByRound(round uint) (domain.Lottery, error) {
 	var row *sql.Row
 	if round == 0 {
-		row = repo.db.QueryRow("SELECT * FROM lotteries LIMIT 1")
+		row = repo.db.QueryRow("SELECT * FROM lotteries ORDER BY round DESC LIMIT 1")
 	} else {
 		row = repo.db.QueryRow("SELECT * FROM lotteries WHERE round = ?", round)
 	}
